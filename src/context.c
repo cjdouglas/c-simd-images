@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "renderer.h"
+#include "utils.h"
+
 #define START_WIDTH 800
 #define START_HEIGHT 600
 
@@ -20,7 +23,8 @@ typedef struct {
 simd_img_context global_context;
 
 void _resize_callback(GLFWwindow* window, int w, int h) {
-  glViewport(0, 0, w, h);
+  (void)window;
+  GL_CHECK(glViewport(0, 0, w, h));
   global_context.width = w;
   global_context.height = h;
 }
@@ -55,19 +59,22 @@ void simd_context_start() {
     exit(-1);
   }
 
-  // TODO: GL_CHECK all gl calls
-  glViewport(0, 0, global_context.width, global_context.height);
+  renderer_init();
+
+  GL_CHECK(glViewport(0, 0, global_context.width, global_context.height));
   glfwSetFramebufferSizeCallback(global_context.window, _resize_callback);
   while (!glfwWindowShouldClose(global_context.window)) {
     _handle_input(global_context.window);
 
     // Render pass
-    glClearColor(0.2F, 0.3F, 0.3F, 1.0F);
-    glClear(GL_COLOR_BUFFER_BIT);
+    renderer_draw();
+    GL_CHECK(glClearColor(0.2F, 0.3F, 0.3F, 1.0F));
+    GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
 
     glfwSwapBuffers(global_context.window);
     glfwPollEvents();
   }
 
+  renderer_destroy();
   glfwTerminate();
 }
