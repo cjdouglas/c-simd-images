@@ -9,7 +9,6 @@ typedef struct {
 } simd_image;
 
 void simd_image_load(const char* path);
-const unsigned char* simd_image_bytes();
 const simd_image* simd_image_current();
 void simd_image_destroy();
 

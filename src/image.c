@@ -14,8 +14,6 @@ void simd_image_load(const char* path) {
                 &global_simd_image.channels, FORCE_CHANNELS);
 }
 
-const unsigned char* simd_image_bytes() { return global_simd_image.data; }
-
 const simd_image* simd_image_current() { return &global_simd_image; }
 
 void simd_image_destroy() {

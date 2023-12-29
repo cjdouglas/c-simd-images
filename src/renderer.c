@@ -24,6 +24,11 @@ GLint attr_pos;
 GLint attr_tex_pos;
 GLint unif_tex;
 
+int rgb_clamp(float val) {
+  const int t = val < 0 ? 0 : (int)val;
+  return t > 255 ? 255 : t;
+}
+
 void renderer_init() {
   GL_CHECK(glEnable(GL_BLEND));
   GL_CHECK(glDisable(GL_CULL_FACE));
