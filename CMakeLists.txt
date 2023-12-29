@@ -12,7 +12,8 @@ set(SOURCES src/main.c src/context.c src/renderer.c src/shader.c)
 add_executable(simd_run ${SOURCES})
 
 include(FetchDependencies)
+include(CompileFlags)
 
 target_include_directories(simd_run PUBLIC include)
 target_link_libraries(simd_run glfw glad)
-target_compile_options(simd_run PRIVATE -Wall -Wextra -Werror)
+apply_compile_flags(simd_run)

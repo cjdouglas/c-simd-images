@@ -23,7 +23,6 @@ typedef struct {
 simd_img_context global_context;
 
 void _resize_callback(GLFWwindow* window, int w, int h) {
-  (void)window;
   GL_CHECK(glViewport(0, 0, w, h));
   global_context.width = w;
   global_context.height = h;

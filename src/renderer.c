@@ -15,9 +15,9 @@ GLuint program;
 GLuint tex;
 GLuint vertex_buf;
 
-GLuint attr_pos;
-GLuint attr_tex_pos;
-GLuint unif_tex;
+GLint attr_pos;
+GLint attr_tex_pos;
+GLint unif_tex;
 
 void renderer_init() {
   glEnable(GL_BLEND);

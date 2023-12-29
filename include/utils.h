@@ -6,13 +6,13 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define ASSERT(x) \
-  if (!(x)) raise(SIGKILL)
-
 #define GL_CHECK(stmt) \
   _GL_CLEAR_ERROR();   \
   stmt;                \
-  ASSERT(_glLogCall(#stmt, __FILE__, __LINE__))
+  _ASSERT(_glLogCall(#stmt, __FILE__, __LINE__))
+
+#define _ASSERT(x) \
+  if (!(x)) raise(SIGKILL)
 
 #define _GL_CLEAR_ERROR()                 \
   {                                       \
