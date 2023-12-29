@@ -2,6 +2,7 @@
 #define _SIMD_IMG_RENDERER_H
 
 void renderer_init();
+void renderer_update_texture();
 void renderer_draw();
 void renderer_destroy();
 

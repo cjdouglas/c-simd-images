@@ -9,18 +9,18 @@
 
 const char* vertex_shader =
     "#version 330 core\n"
-    "in vec4 a_Position;\n"
-    "in vec4 a_TexPosition;\n"
-    "out vec4 v_TexPosition;\n"
+    "layout(location = 0) in vec2 a_Position;\n"
+    "layout(location = 1) in vec2 a_TexPosition;\n"
+    "out vec2 v_TexPosition;\n"
     "void main() {\n"
     "  v_TexPosition = a_TexPosition;\n"
-    "  gl_Position = a_Position;\n"
+    "  gl_Position = vec4(a_Position, 0.0F, 1.0F);\n"
     "}\0";
 
 const char* fragment_shader =
     "#version 330 core\n"
     "uniform sampler2D u_Texture;\n"
-    "in vec4 v_TexPosition;\n"
+    "in vec2 v_TexPosition;\n"
     "out vec4 FragColor;\n"
     "void main() {\n"
     "  FragColor = texture(u_Texture, v_TexPosition.xy);\n"

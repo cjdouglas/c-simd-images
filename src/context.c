@@ -58,6 +58,11 @@ void simd_context_start() {
     exit(-1);
   }
 
+  const GLubyte* version_string = glGetString(GL_VERSION);
+  if (version_string) {
+    printf("OpenGL version: %s\n", version_string);
+  }
+
   renderer_init();
 
   GL_CHECK(glViewport(0, 0, global_context.width, global_context.height));
@@ -67,8 +72,6 @@ void simd_context_start() {
 
     // Render pass
     renderer_draw();
-    GL_CHECK(glClearColor(0.2F, 0.3F, 0.3F, 1.0F));
-    GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
 
     glfwSwapBuffers(global_context.window);
     glfwPollEvents();
