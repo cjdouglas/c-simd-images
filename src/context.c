@@ -11,8 +11,7 @@
 #include "renderer.h"
 #include "utils.h"
 
-#define START_WIDTH 800
-#define START_HEIGHT 600
+#define WINDOW_SIZE 800
 
 typedef struct {
   GLFWwindow* window;
@@ -42,9 +41,9 @@ void simd_context_start() {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
   global_context.window =
-      glfwCreateWindow(START_WIDTH, START_HEIGHT, "SIMD Images", NULL, NULL);
-  global_context.width = START_WIDTH;
-  global_context.height = START_HEIGHT;
+      glfwCreateWindow(WINDOW_SIZE, WINDOW_SIZE, "SIMD Images", NULL, NULL);
+  global_context.width = WINDOW_SIZE;
+  global_context.height = WINDOW_SIZE;
   if (!global_context.window) {
     fprintf(stderr, "Failed to create window\n");
     glfwTerminate();

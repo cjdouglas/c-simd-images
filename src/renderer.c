@@ -1,7 +1,6 @@
 #include "renderer.h"
 
 #include <glad/glad.h>
-#include <stdio.h>
 
 #include "image.h"
 #include "shader.h"
@@ -15,6 +14,8 @@ const float tex_coords[16] = {
 };
 
 GLuint program;
+
+GLuint vertex_arr;
 
 GLuint tex;
 GLuint vertex_buf;
@@ -35,18 +36,32 @@ void renderer_init() {
   GL_CHECK(glAttachShader(program, fragment_shader));
   GL_CHECK(glLinkProgram(program));
 
-  // Get locations of shader variables
-  GL_CHECK(attr_pos = glGetAttribLocation(program, "a_Position"));
-  GL_CHECK(attr_tex_pos = glGetAttribLocation(program, "a_TexPosition"));
   GL_CHECK(unif_tex = glGetUniformLocation(program, "u_Texture"));
+
+  GL_CHECK(glGenVertexArrays(1, &vertex_arr));
+  GL_CHECK(glBindVertexArray(vertex_arr));
 
   // Generate vertex buffers and send data
   GL_CHECK(glGenBuffers(1, &vertex_buf));
-  printf("%u\n", vertex_buf);
   GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vertex_buf));
   GL_CHECK(glBufferData(GL_ARRAY_BUFFER, sizeof(tex_coords), tex_coords,
                         GL_STATIC_DRAW));
+
+  // Setup vertex attributes
+  GL_CHECK(attr_pos = glGetAttribLocation(program, "a_Position"));
+  GL_CHECK(glEnableVertexAttribArray((GLuint)attr_pos));
+  GL_CHECK(glVertexAttribPointer((GLuint)attr_pos, 2, GL_FLOAT, GL_FALSE,
+                                 4 * sizeof(float), (const void*)0));
+
+  GL_CHECK(attr_tex_pos = glGetAttribLocation(program, "a_TexPosition"));
+  GL_CHECK(glEnableVertexAttribArray((GLuint)attr_tex_pos));
+  GL_CHECK(glVertexAttribPointer((GLuint)attr_tex_pos, 2, GL_FLOAT, GL_FALSE,
+                                 4 * sizeof(float),
+                                 (const void*)(2 * sizeof(float))));
+
+  GL_CHECK(glBindVertexArray(0));
   GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
+
   GL_CHECK(glGenTextures(1, &tex));
 
   // TODO: move this elsewhere
@@ -73,22 +88,16 @@ void renderer_draw() {
   GL_CHECK(glClear(GL_COLOR_BUFFER_BIT));
 
   GL_CHECK(glUseProgram(program));
-  GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, vertex_buf));
+
+  GL_CHECK(glBindVertexArray(vertex_arr));
   GL_CHECK(glActiveTexture(GL_TEXTURE0));
   GL_CHECK(glBindTexture(GL_TEXTURE_2D, tex));
 
   GL_CHECK(glUniform1i(unif_tex, 0));
 
-  GL_CHECK(glEnableVertexAttribArray((GLuint)attr_pos));
-  GL_CHECK(glVertexAttribPointer((GLuint)attr_pos, 2, GL_FLOAT, GL_FALSE,
-                                 4 * sizeof(float), (const void*)0));
-  GL_CHECK(glEnableVertexAttribArray((GLuint)attr_tex_pos));
-  GL_CHECK(glVertexAttribPointer((GLuint)attr_tex_pos, 2, GL_FLOAT, GL_FALSE,
-                                 4 * sizeof(float),
-                                 (const void*)(2 * sizeof(float))));
-
   GL_CHECK(glDrawArrays(GL_TRIANGLE_STRIP, 0, 4));
-  GL_CHECK(glBindBuffer(GL_ARRAY_BUFFER, 0));
+
+  GL_CHECK(glBindVertexArray(0));
   GL_CHECK(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
