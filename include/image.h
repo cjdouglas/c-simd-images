@@ -1,15 +1,17 @@
-#ifndef _SIMD_IMG_IMAGE_H
-#define _SIMD_IMG_IMAGE_H
+#ifndef _SI_IMAGE_H
+#define _SI_IMAGE_H
 
 typedef struct {
   unsigned char* data;
   int width;
   int height;
   int channels;
-} simd_image;
+} si_image;
 
-void simd_image_load(const char* path);
-const simd_image* simd_image_current();
-void simd_image_destroy();
+void si_image_load(const char* path);
+void si_image_swap_buffers();
+const si_image* si_image_active();
+const si_image* si_image_inactive();
+void si_image_destroy();
 
-#endif  // _SIMD_IMG_IMAGE_H
+#endif  // _SI_IMAGE_H

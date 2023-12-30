@@ -1,5 +1,5 @@
-#ifndef _SIMD_IMG_UTILS_H
-#define _SIMD_IMG_UTILS_H
+#ifndef _SI_UTILS_H
+#define _SI_UTILS_H
 
 #include <glad/glad.h>
 #include <signal.h>
@@ -33,4 +33,4 @@ static inline bool _glLogCall(const char* func, const char* file, int line) {
   return !error;
 }
 
-#endif  // _SIMD_IMG_UTILS_H
+#endif  // _SI_UTILS_H

@@ -1,10 +1,7 @@
-#ifndef _SIMD_IMG_OVERLAY_H
-#define _SIMD_IMG_OVERLAY_H
-
-#define NK_IMPLEMENTATION
-#include "nuklear.h"
+#ifndef _SI_OVERLAY_H
+#define _SI_OVERLAY_H
 
 void overlay_init();
 void overlay_destroy();
 
-#endif  // _SIMD_IMG_OVERLAY_H
+#endif  // _SI_OVERLAY_H

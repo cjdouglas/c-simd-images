@@ -1,6 +1,6 @@
-#ifndef _SIMD_IMG_CONTEXT_H
-#define _SIMD_IMG_CONTEXT_H
+#ifndef _SI_CONTEXT_H
+#define _SI_CONTEXT_H
 
-void simd_context_start();
+void si_context_start();
 
-#endif  // _SIMD_IMG_CONTEXT_H
+#endif  // _SI_CONTEXT_H

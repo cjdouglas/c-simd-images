@@ -70,12 +70,12 @@ void renderer_init() {
   GL_CHECK(glGenTextures(1, &tex));
 
   // TODO: move this elsewhere
-  simd_image_load("/home/cdoug/Pictures/nebula.jpg");
-  renderer_update_texture();
+  // si_image_load("/home/cdoug/Pictures/nebula.jpg");
+  // renderer_update_texture();
 }
 
 void renderer_update_texture() {
-  const simd_image* image = simd_image_current();
+  const si_image* image = si_image_active();
   GL_CHECK(glActiveTexture(GL_TEXTURE0));
   GL_CHECK(glBindTexture(GL_TEXTURE_2D, tex));
   GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height,
@@ -106,4 +106,4 @@ void renderer_draw() {
   GL_CHECK(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
-void renderer_destroy() { simd_image_destroy(); }
+void renderer_destroy() { si_image_destroy(); }

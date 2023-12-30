@@ -15,7 +15,10 @@ add_executable(simd_run ${SOURCES})
 include(FetchDependencies)
 include(CompileFlags)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTK4 REQUIRED IMPORTED_TARGET gtk4)
+
 target_include_directories(simd_run SYSTEM PUBLIC external)
 target_include_directories(simd_run PUBLIC include)
-target_link_libraries(simd_run glfw glad)
+target_link_libraries(simd_run glfw glad PkgConfig::GTK4)
 apply_compile_flags(simd_run)

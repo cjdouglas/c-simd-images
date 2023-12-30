@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "overlay.h"
 #include "renderer.h"
 #include "utils.h"
 
@@ -33,7 +34,7 @@ void _handle_input(GLFWwindow* window) {
   }
 }
 
-void simd_context_start() {
+void si_context_start() {
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -62,6 +63,7 @@ void simd_context_start() {
     printf("OpenGL version: %s\n", version_string);
   }
 
+  overlay_init();
   renderer_init();
 
   GL_CHECK(glViewport(0, 0, global_context.width, global_context.height));
