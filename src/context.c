@@ -127,9 +127,13 @@ void si_context_start() {
   {
     struct nk_font_atlas* atlas;
     nk_glfw3_font_stash_begin(&glfw, &atlas);
+    struct nk_font* font =
+        nk_font_atlas_add_from_file(atlas, "../fonts/DroidSans.ttf", 18, 0);
     nk_glfw3_font_stash_end(&glfw);
+    nk_style_set_font(ctx, &font->handle);
   }
 
+  float brightness_value = 0.0F;
   while (!should_exit) {
     // Texture window rendering
     handle_input(texture_window.window);
@@ -142,26 +146,16 @@ void si_context_start() {
     handle_input(nuklear_window.window);
     glfwMakeContextCurrent(nuklear_window.window);
     nk_glfw3_new_frame(&glfw);
-    if (nk_begin(ctx, "Demo",
+    if (nk_begin(ctx, "Apply Effects",
                  nk_rect(0, 0, (float)nuklear_window.width,
                          (float)nuklear_window.height),
                  NK_WINDOW_BORDER | NK_WINDOW_TITLE)) {
-      enum { EASY, HARD };
-      static int op = EASY;
-      static int property = 20;
-      nk_layout_row_static(ctx, 30, 80, 1);
-      if (nk_button_label(ctx, "button")) fprintf(stdout, "button pressed\n");
-
-      nk_layout_row_dynamic(ctx, 30, 2);
-      if (nk_option_label(ctx, "easy", op == EASY)) op = EASY;
-      if (nk_option_label(ctx, "hard", op == HARD)) op = HARD;
-
-      nk_layout_row_dynamic(ctx, 25, 1);
-      nk_property_int(ctx, "Compression:", 0, &property, 100, 10, 1);
-
-      nk_layout_row_dynamic(ctx, 20, 1);
-      nk_label(ctx, "background:", NK_TEXT_LEFT);
-      nk_layout_row_dynamic(ctx, 25, 1);
+      nk_layout_row_dynamic(ctx, 30, 1);
+      nk_slider_float(ctx, -1.0F, &brightness_value, 1.0F, 0.1F);
+      nk_layout_row_dynamic(ctx, 30, 1);
+      if (nk_button_label(ctx, "Apply")) {
+        printf("Apply clicked\n");
+      }
     }
     nk_end(ctx);
 
