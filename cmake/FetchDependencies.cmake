@@ -24,14 +24,3 @@ if(NOT glfw_POPULATED)
 
   add_subdirectory(${glfw_SOURCE_DIR} ${glfw_BINARY_DIR})
 endif()
-
-FetchContent_Declare(
-  glad
-  GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-  GIT_TAG v0.1.36)
-
-FetchContent_GetProperties(glad)
-if(NOT glad_POPULATED)
-  FetchContent_Populate(glad)
-  add_subdirectory(${glad_SOURCE_DIR} ${glad_BINARY_DIR})
-endif()

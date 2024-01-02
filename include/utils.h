@@ -1,7 +1,7 @@
 #ifndef _SI_UTILS_H
 #define _SI_UTILS_H
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>

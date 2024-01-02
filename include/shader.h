@@ -1,7 +1,7 @@
 #ifndef _SI_SHADER_H
 #define _SI_SHADER_H
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 
 GLuint shader_create(GLenum shader_type);
 

@@ -10,7 +10,8 @@ function(apply_compile_flags target)
               -Wsign-conversion
               -Wdouble-promotion
               -Wimplicit-fallthrough
-              -Wno-unused-parameter)
+              -Wno-unused-parameter
+              -Wno-unused-variable)
   elseif(CMAKE_C_COMPILER_ID MATCHES "MSVC")
     message(WARNING "MSVC still under development")
   else()

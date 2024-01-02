@@ -1,6 +1,6 @@
 #include "renderer.h"
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 
 #include "image.h"
 #include "shader.h"
