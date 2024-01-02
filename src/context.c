@@ -8,29 +8,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "overlay.h"
+#include "algorithm.h"
 #include "renderer.h"
 #include "utils.h"
 
 #define WINDOW_SIZE 800
 
-typedef struct {
+struct si_image_context {
   GLFWwindow* window;
   int width;
   int height;
-} simd_img_context;
+};
 
-simd_img_context global_context;
+struct si_image_context context;
 
 void _resize_callback(GLFWwindow* window, int w, int h) {
   GL_CHECK(glViewport(0, 0, w, h));
-  global_context.width = w;
-  global_context.height = h;
+  context.width = w;
+  context.height = h;
 }
 
 void _handle_input(GLFWwindow* window) {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
     glfwSetWindowShouldClose(window, true);
+  } else if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+    sse_apply_brightness(50);
   }
 }
 
@@ -41,17 +43,17 @@ void si_context_start() {
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-  global_context.window =
+  context.window =
       glfwCreateWindow(WINDOW_SIZE, WINDOW_SIZE, "SIMD Images", NULL, NULL);
-  global_context.width = WINDOW_SIZE;
-  global_context.height = WINDOW_SIZE;
-  if (!global_context.window) {
+  context.width = WINDOW_SIZE;
+  context.height = WINDOW_SIZE;
+  if (!context.window) {
     fprintf(stderr, "Failed to create window\n");
     glfwTerminate();
     exit(-1);
   }
 
-  glfwMakeContextCurrent(global_context.window);
+  glfwMakeContextCurrent(context.window);
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
     fprintf(stderr, "Failed to initialize GLAD\n");
     glfwTerminate();
@@ -63,18 +65,17 @@ void si_context_start() {
     printf("OpenGL version: %s\n", version_string);
   }
 
-  overlay_init();
   renderer_init();
 
-  GL_CHECK(glViewport(0, 0, global_context.width, global_context.height));
-  glfwSetFramebufferSizeCallback(global_context.window, _resize_callback);
-  while (!glfwWindowShouldClose(global_context.window)) {
-    _handle_input(global_context.window);
+  GL_CHECK(glViewport(0, 0, context.width, context.height));
+  glfwSetFramebufferSizeCallback(context.window, _resize_callback);
+  while (!glfwWindowShouldClose(context.window)) {
+    _handle_input(context.window);
 
     // Render pass
     renderer_draw();
 
-    glfwSwapBuffers(global_context.window);
+    glfwSwapBuffers(context.window);
     glfwPollEvents();
   }
 

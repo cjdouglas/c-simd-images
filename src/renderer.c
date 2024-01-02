@@ -24,11 +24,6 @@ GLint attr_pos;
 GLint attr_tex_pos;
 GLint unif_tex;
 
-int rgb_clamp(float val) {
-  const int t = val < 0 ? 0 : (int)val;
-  return t > 255 ? 255 : t;
-}
-
 void renderer_init() {
   GL_CHECK(glEnable(GL_BLEND));
   GL_CHECK(glDisable(GL_CULL_FACE));
@@ -70,12 +65,12 @@ void renderer_init() {
   GL_CHECK(glGenTextures(1, &tex));
 
   // TODO: move this elsewhere
-  // si_image_load("/home/cdoug/Pictures/nebula.jpg");
-  // renderer_update_texture();
+  si_image_load("/home/cdoug/Pictures/nebula.jpg");
+  renderer_update_texture();
 }
 
 void renderer_update_texture() {
-  const si_image* image = si_image_active();
+  const struct si_image* image = si_image_active();
   GL_CHECK(glActiveTexture(GL_TEXTURE0));
   GL_CHECK(glBindTexture(GL_TEXTURE_2D, tex));
   GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height,
