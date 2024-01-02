@@ -54,6 +54,10 @@ struct si_image_context image_context;
 struct si_overlay_context overlay_context;
 
 static void handle_input(GLFWwindow* window) {
+  if (glfwWindowShouldClose(window)) {
+    should_exit = true;
+  }
+
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
     should_exit = true;
   }
@@ -127,8 +131,6 @@ void si_context_start() {
   }
 
   while (!should_exit) {
-    glfwPollEvents();
-
     // Texture window rendering
     handle_input(texture_window.window);
     glfwMakeContextCurrent(texture_window.window);
@@ -168,6 +170,8 @@ void si_context_start() {
     nk_glfw3_render(&glfw, NK_ANTI_ALIASING_ON, MAX_VERTEX_BUFFER,
                     MAX_ELEMENT_BUFFER);
     glfwSwapBuffers(nuklear_window.window);
+
+    glfwPollEvents();
   }
 
   renderer_destroy();
